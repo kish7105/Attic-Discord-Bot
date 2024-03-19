@@ -1,11 +1,20 @@
 import os
 import asyncio
+import logging
 
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv("Database/.env")
+
+logging.basicConfig(
+    filename = "Database/events.log",
+    filemode = "w",
+    level = logging.INFO,
+    format = "[%(levelname)s] | %(asctime)s - %(message)s [Line: %(lineno)s %(filename)s]",
+    datefmt = "%I:%M:%S %p"
+)
 
 client = commands.Bot(
     command_prefix = ">",
@@ -32,6 +41,10 @@ async def on_ready() -> None:
 
     await client.tree.sync()
     print(f"Logged in as {client.user}")
+
+@client.event
+async def on_command_error(ctx: commands.Context, error: commands.CommandError) -> None:
+    logging.error(error)
 
 async def main() -> None:
 
