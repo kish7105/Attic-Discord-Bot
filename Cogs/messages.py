@@ -1,4 +1,5 @@
-from utils import load_afk, save_afk
+import random
+from utils import load_afk, save_afk, snapcap_responses
 
 import discord
 from discord.ext import commands
@@ -12,20 +13,40 @@ class Messages(commands.Cog):
     async def on_message(self, message: discord.Message) -> None:
 
         afk_data = load_afk()
+        chances = [0,1]
+        weights = [0.6, 0.4]
+        will_respond = random.choices(chances, weights=weights)
 
         if message.author == self.client.user:
             return
         
-        elif afk_data[message.author.id] is not None:
+        elif message.content.startswith(">afk"):
+            return
+        
+        elif afk_data.get(message.author.id) is not None:
             await message.channel.send(f"Welcome back {message.author.mention}!\n"
                                        f"You had gone AFK <t:{afk_data[message.author.id]["timestamp"]}:R>\n"
                                        f"Reason: **{afk_data[message.author.id]["reason"]}**")
-        else:
-            for user in message.mentions:
+            
+            del afk_data[message.author.id]
+            save_afk(afk_data)
+            return
+            
+        for user in message.mentions:
+            
+            if afk_data.get(user.id) is not None:
+                await message.reply(f"{user.mention} went AFK <t:{afk_data[user.id]["timestamp"]}:R>\n"
+                                    f"Reason: **{afk_data[user.id]["reason"]}**")
                 
-                if afk_data[user.id] is not None:
-                    await message.reply(f"{user.mention} went AFK <t:{afk_data[user.id]["timestamp"]}:R>\n"
-                                        f"Reason: **{afk_data[user.id]["reason"]}**")
+        if message.content.lower().find("snapcap") != -1 or message.content.lower().find("snap") != -1:
+            
+            if will_respond[0] == 0:
+                await message.reply(random.choice(snapcap_responses))
+
+        elif message.content.lower().find("kish") != -1:
+            
+            if will_respond[0] == 0:
+                await message.reply("kish is my daddy🥵")
 
 async def setup(client: commands.Bot) -> None:
     await client.add_cog(Messages(client))

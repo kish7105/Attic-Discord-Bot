@@ -44,7 +44,25 @@ async def on_ready() -> None:
 
 @client.event
 async def on_command_error(ctx: commands.Context, error: commands.CommandError) -> None:
-    logging.error(error)
+    
+    if isinstance(error, commands.BadArgument):
+        await ctx.reply("An error occurred while executing the command.\n"
+                        "Please check your inputs before trying out the command again!")
+        logging.error(error)
+        return
+    
+    elif isinstance(error, commands.MissingRequiredArgument):
+        await ctx.reply("An error occurred while executing the command.\n"
+                        "Please check if you provided the correct number of inputs before trying again!")
+        logging.error(error)
+        return
+    
+    else:
+        logging.error(error)
+        
+        await ctx.send(":(\n\nOops\nAn error occurred during the command execution.\n"
+                    "Please check the `log file` attached with this message to debug the error!",
+                    file = discord.File("Database/events.log"))
 
 async def main() -> None:
 
