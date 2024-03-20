@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from Configs.rps_utils import SinglePlayerRPS, MultiPlayerAuthorRPS
 
 import discord
@@ -47,6 +48,31 @@ class RockPaperScissors(commands.Cog):
             mrps_view = MultiPlayerAuthorRPS(ctx, user)
             mrps_view.message = await ctx.send(f"{ctx.author.mention}\nChoose Rock, Paper or Scissors!",
                                                view = mrps_view)
+            
+    @srps.error
+    async def srps_error(self, ctx: commands.Context, error: commands.CommandError):
+        
+        logging.error(error)
+        await ctx.send(":(\n\nAn unknown error occurred during the command execution.\n"
+                       "To know further about the error info.. use the `>logs` command to fetch the `events.log` "
+                       "file from the database!")
 
+    @mrps.error
+    async def srps_error(self, ctx: commands.Context, error: commands.CommandError):
+
+        if isinstance(error, commands.MissingRequiredArgument):
+            logging.error(error)
+            await ctx.reply("Please mention an user you want to play with!")
+
+        elif isinstance(error, commands.BadArgument):
+            logging.error(error)
+            await ctx.reply("Oops.. An error occurred.\nPlease check if your inputs are valid!")
+
+        else:
+            logging.error(error)
+            await ctx.send(":(\n\nAn unknown error occurred during the command execution.\n"
+                           "To know further about the error info.. use the `>logs` command to fetch the `events.log` "
+                           "file from the database!")
+    
 async def setup(client: commands.Bot) -> None:
     await client.add_cog(RockPaperScissors(client))

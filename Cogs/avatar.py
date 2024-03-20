@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 import discord
 from discord import app_commands
@@ -35,6 +36,14 @@ class Avatar(commands.Cog):
             embed.set_image(url = user.avatar.url)
 
             await ctx.send(embed = embed)
+
+    @avatar.error
+    async def avatar_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
+        
+        logging.error(error)
+        await ctx.send(":(\n\nAn unknown error occurred during the command execution.\n"
+                       "To know further about the error info.. use the `>logs` command to fetch the `events.log` "
+                       "file from the database!")
 
 async def setup(client: commands.Bot) -> None:
     await client.add_cog(Avatar(client))

@@ -1,7 +1,7 @@
 import random
 import asyncio
+import logging
 
-import discord
 from discord import app_commands
 from discord.ext import commands
 
@@ -59,6 +59,23 @@ class NumGuess(commands.Cog):
         await ctx.reply("Game Over!\n"
                         f"The correct number was **{answer}**\n"
                         "Better luck next time!")
+        
+    @numguess.error
+    async def numguess_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
+
+        if isinstance(error, commands.MissingRequiredArgument):
+            logging.error(error)
+            await ctx.reply("You're missing a required input for running this command!")
+
+        elif isinstance(error, commands.BadArgument):
+            logging.error(error)
+            await ctx.reply("You didn't specify the inputs properly. Please check your command and try again!")
+
+        else:
+            logging.error(error)
+            await ctx.send(":(\n\nAn unknown error occurred during the command execution.\n"
+                        "To know further about the error info.. use the `>logs` command to fetch the `events.log` "
+                        "file from the database!")
         
 async def setup(client: commands.Bot) -> None:
     await client.add_cog(NumGuess(client))

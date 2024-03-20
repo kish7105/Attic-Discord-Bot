@@ -1,5 +1,6 @@
 import time
 import datetime
+import logging
 from Configs.json_utils import load_afk, save_afk
 
 import discord
@@ -16,22 +17,22 @@ class AFK(commands.Cog):
     @commands.guild_only()
     async def afk(self, ctx: commands.Context, *, reason: str = "Not Provided") -> None:
         
-        afk_data = load_afk()
+        afk_data = load_afk()  # load data from 'afk.json'
 
-        if afk_data.get(str(ctx.author.id)) is not None:
+        if afk_data.get(str(ctx.author.id)) is not None:  # if the author is already afk
             await ctx.reply(f"Welcome back {ctx.author.mention}!\n"
                             f"You had gone AFK <t:{afk_data[str(ctx.author.id)]["timestamp"]}:R>\n"
                             f"Reason: **{reason}**")
 
-            del afk_data[str(ctx.author.id)]
-            save_afk(afk_data)
+            del afk_data[str(ctx.author.id)]  # erase author's data from 'afk.json'
+            save_afk(afk_data)  # save the changes
 
-        else:
+        else:  # if the author was not afk before running this command
             afk_data[str(ctx.author.id)] = {
-                "timestamp": int(time.time()),
-                "reason": reason
+                "timestamp": int(time.time()),  # unix timestamp
+                "reason": reason  # reason provided by the author
             }
-            save_afk(afk_data)
+            save_afk(afk_data)  # save the changes
 
             embed = discord.Embed(
                 description = f"{ctx.author.name} went AFK <t:{int(time.time())}:R>",
@@ -42,8 +43,15 @@ class AFK(commands.Cog):
             embed.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
             embed.add_field(name = "Reason:", value = f"```{reason}```", inline = False)
             
-            # time.time() represents an 'unix' timestamp
             await ctx.send(embed = embed)
+
+    @afk.error
+    async def afk_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
+
+        logging.error(error)
+        await ctx.send(":(\n\nAn unknown error occurred during the command execution.\n"
+                       "To know further about the error info.. use the `>logs` command to fetch the `events.log` "
+                       "file from the database!")
 
 async def setup(client: commands.Bot) -> None:
     await client.add_cog(AFK(client))
