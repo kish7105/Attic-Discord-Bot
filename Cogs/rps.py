@@ -1,5 +1,5 @@
 import asyncio
-from utils import SinglePlayerRPS, MultiPlayerAuthorRPS
+from Configs.rps_utils import SinglePlayerRPS, MultiPlayerAuthorRPS
 
 import discord
 from discord import app_commands

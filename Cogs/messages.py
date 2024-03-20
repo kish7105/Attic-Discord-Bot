@@ -1,5 +1,6 @@
 import random
-from utils import load_afk, save_afk, snapcap_responses
+from Configs.json_utils import load_afk, save_afk
+from Configs.basic_utils import snapcap_responses
 
 import discord
 from discord.ext import commands
@@ -47,6 +48,11 @@ class Messages(commands.Cog):
             
             if will_respond[0] == 0:
                 await message.reply("Did you mean hoe-m?")
+
+        elif message.content.lower().find("kish") != -1:
+            
+            if will_respond[0] == 0:
+                await message.reply("kish is my daddy🥵")
 
 async def setup(client: commands.Bot) -> None:
     await client.add_cog(Messages(client))

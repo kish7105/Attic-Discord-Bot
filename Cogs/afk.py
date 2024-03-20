@@ -1,6 +1,6 @@
 import time
 import datetime
-from utils import load_afk, save_afk
+from Configs.json_utils import load_afk, save_afk
 
 import discord
 from discord import app_commands
