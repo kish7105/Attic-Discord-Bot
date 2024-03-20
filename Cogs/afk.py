@@ -18,16 +18,16 @@ class AFK(commands.Cog):
         
         afk_data = load_afk()
 
-        if afk_data.get(ctx.author.id) is not None:
+        if afk_data.get(str(ctx.author.id)) is not None:
             await ctx.reply(f"Welcome back {ctx.author.mention}!\n"
-                            f"You had gone AFK <t:{afk_data[ctx.author.id]["timestamp"]}:R>\n"
+                            f"You had gone AFK <t:{afk_data[str(ctx.author.id)]["timestamp"]}:R>\n"
                             f"Reason: **{reason}**")
 
-            del afk_data[ctx.author.id]
+            del afk_data[str(ctx.author.id)]
             save_afk(afk_data)
 
         else:
-            afk_data[ctx.author.id] = {
+            afk_data[str(ctx.author.id)] = {
                 "timestamp": int(time.time()),
                 "reason": reason
             }

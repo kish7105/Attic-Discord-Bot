@@ -18,6 +18,10 @@ class NumGuess(commands.Cog):
         if max_limit >= 1000:
             await ctx.reply("Maximum number limit cannot be more than 1000!")
             return
+        
+        if max_limit <= 10:
+            await ctx.reply("Maximum number limit cannot be less than 10!")
+            return
 
         await ctx.reply(f"Okay! The maximum limit has been set to `{max_limit}` for this game!\n"
                         "Start giving your number guesses now!\n"

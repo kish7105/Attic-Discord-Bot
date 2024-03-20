@@ -1,30 +1,30 @@
 import asyncio
 import random
+import json
 
-import yaml
 import discord
 from discord.ui import View, button
 from discord.ext import commands
 
 def load_data():
     
-    with open("Database/config.yml", "r") as file:
-        return yaml.safe_load(file)
+    with open("Database/config.json", "r") as file:
+        return json.load(file)
     
 def save_data(data):
 
-    with open("Database/config.yml", "w") as file:
-        yaml.dump(data, file, default_flow_style = False)
+    with open("Database/config.json", "w") as file:
+        json.dump(data, file, indent = 4)
 
 def load_afk():
     
-    with open("Database/afk.yml", "r") as file:
-        return yaml.safe_load(file)
+    with open("Database/afk.json", "r") as file:
+        return json.load(file)
 
 def save_afk(afk_data):
 
-    with open("Database/afk.yml", "w") as file:
-        yaml.dump(afk_data, file, default_flow_style = False)
+    with open("Database/afk.json", "w") as file:
+        json.dump(afk_data, file, indent = 4)
 
 snapcap_responses = [
     "Snap upni biwi ko divorce mat de",
@@ -33,7 +33,8 @@ snapcap_responses = [
     "Snap did you adopt again?",
     "Snap Manno ka pankha wapas karde",
     "I love you too",
-    "We should sleep together"
+    "We should sleep together",
+    "I can heal you"
 ]
 
 class SinglePlayerRPS(View):

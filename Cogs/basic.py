@@ -37,7 +37,7 @@ class Basic(commands.Cog):
         await ctx.reply(f"{ctx.author.mention}\n{random.choice(responses)}", ephemeral = True)
 
     @commands.hybrid_command(name = "logs", description = "Displays the events.log file!")
-    async def hello(self, ctx: commands.Context) -> None:
+    async def logs(self, ctx: commands.Context) -> None:
 
         await ctx.send("Here's the `events.log` file you requested for!",
                        file = discord.File("Database/events.log"))

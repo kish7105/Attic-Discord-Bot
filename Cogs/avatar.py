@@ -9,7 +9,7 @@ class Avatar(commands.Cog):
     def __init__(self, client: commands.Bot) -> None:
         self.client = client
 
-    @commands.hybrid_command(name = "avatar", description = "Displays an user's avatar!")
+    @commands.hybrid_command(name = "avatar", description = "Displays an user's avatar!", aliases = ["av"])
     @app_commands.describe(user = "Whose avatar do you wanna see?")
     @commands.guild_only()
     async def avatar(self, ctx: commands.Context, user: discord.Member = None) -> None:
