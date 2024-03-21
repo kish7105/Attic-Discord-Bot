@@ -47,8 +47,5 @@ class AFK(commands.Cog):
                        "To know further about the error info.. use the `>logs` command to fetch the `events.log` "
                        "file from the database!")
 
-# just checking the web editor on github!
-# added a new line
-
 async def setup(client: commands.Bot) -> None:
     await client.add_cog(AFK(client))
