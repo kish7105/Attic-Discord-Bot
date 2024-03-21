@@ -217,8 +217,7 @@ class MultiPlayerAuthorRPS(View):
 
         await interaction.response.defer()
 
-        author_choice = "Rock"
-        mrps_user_view = MultiPlayerUserRPS(self.ctx, self.user, author_choice)
+        mrps_user_view = MultiPlayerUserRPS(self.ctx, self.user, "Rock")
         mrps_user_view.message = await self.ctx.send(f"{self.user.mention}\n"
                                                                          "Choose Rock, Paper or Scissors!",
                                                                          view = mrps_user_view)
@@ -230,8 +229,7 @@ class MultiPlayerAuthorRPS(View):
 
         await interaction.response.defer()
 
-        author_choice = "Paper"
-        mrps_user_view = MultiPlayerUserRPS(self.ctx, self.user, author_choice)
+        mrps_user_view = MultiPlayerUserRPS(self.ctx, self.user, "Paper")
         mrps_user_view.message = await self.ctx.send(f"{self.user.mention}\n"
                                                                          "Choose Rock, Paper or Scissors!",
                                                                          view = mrps_user_view)
@@ -243,8 +241,7 @@ class MultiPlayerAuthorRPS(View):
 
         await interaction.response.defer()
 
-        author_choice = "Scissors"
-        mrps_user_view = MultiPlayerUserRPS(self.ctx, self.user, author_choice)
+        mrps_user_view = MultiPlayerUserRPS(self.ctx, self.user, "Scissors")
         mrps_user_view.message = await self.ctx.send(f"{self.user.mention}\n"
                                                                          "Choose Rock, Paper or Scissors!",
                                                                          view = mrps_user_view)

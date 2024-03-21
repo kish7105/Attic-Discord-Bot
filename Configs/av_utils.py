@@ -5,17 +5,6 @@ from discord import Embed
 from discord.ext import commands
 
 def generate_avatar_embed(ctx: commands.Context, user: discord.Member = None) -> Embed:
-
-    """Generates a `discord.Embed` object which is used for the avatar command in `avatar.py` file.
-    
-    ## Parameters
-    
-    ctx: `commands.Context`
-        Holds information regarding the command invocation.
-        
-    user: `discord.Member`
-        For obtaining the avatar of a particular user. This defaults to `None` if the author wants to
-        see their profile's avatar."""
     
     if user is None:  # if the author wants to see their profile picture
     

@@ -7,16 +7,6 @@ from discord.ext import commands
 
 def generate_afk_embed(ctx: commands.Context, reason: str) -> Embed:
 
-    """Generates a `discord.Embed` object for the afk command in `afk.py` file
-    
-    ## Parameters
-    
-    ctx: `commands.Context`
-        Holds information about the command invocation.
-        
-    reason: `str`
-        This is provided by the command author during command invocation."""
-
     embed = discord.Embed(
         description = f"{ctx.author.name} went AFK <t:{int(time.time())}:R>",
         color = discord.Color.random(),

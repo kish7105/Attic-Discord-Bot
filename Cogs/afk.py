@@ -3,7 +3,6 @@ import logging
 from Configs.json_utils import load_afk, save_afk
 from Configs.afk_utils import generate_afk_embed
 
-import discord
 from discord import app_commands
 from discord.ext import commands
 
