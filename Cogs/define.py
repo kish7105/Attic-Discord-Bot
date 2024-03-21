@@ -19,7 +19,7 @@ class Define(commands.Cog):
         response = requests.get(url)
         data = response.json()
 
-        if data["list"]:
+        if data["list"]:  # if any data exists for the word 
             definition = data["list"][0]["definition"]
             example = data["list"][0]["example"]
             
@@ -32,6 +32,9 @@ class Define(commands.Cog):
             )
             ud_embed.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
             await ctx.send(embed = ud_embed)
+
+        else:  # if nothing is found after querying Urban Dictionary
+            await ctx.reply(f"Couldn't fetch any data for the word: **{word.capitalize()}**")
             
 async def setup(client: commands.Bot):
     await client.add_cog(Define(client))
