@@ -1,7 +1,7 @@
 import time
-import datetime
 import logging
 from Configs.json_utils import load_afk, save_afk
+from Configs.afk_utils import generate_afk_embed
 
 import discord
 from discord import app_commands
@@ -26,24 +26,19 @@ class AFK(commands.Cog):
 
             del afk_data[str(ctx.author.id)]  # erase author's data from 'afk.json'
             save_afk(afk_data)  # save the changes
+            return
+        
+        # if the user isn't AFK, execute the code below
 
-        else:  # if the author was not afk before running this command
-            afk_data[str(ctx.author.id)] = {
-                "timestamp": int(time.time()),  # unix timestamp
-                "reason": reason  # reason provided by the author
-            }
-            save_afk(afk_data)  # save the changes
+        afk_data[str(ctx.author.id)] = {
+            "timestamp": int(time.time()),  # unix timestamp
+            "reason": reason  # reason provided by the author
+        }
+        save_afk(afk_data)  # save the changes
 
-            embed = discord.Embed(
-                description = f"{ctx.author.name} went AFK <t:{int(time.time())}:R>",
-                color = discord.Color.random(),
-                timestamp = datetime.datetime.now()
-            )
+        await ctx.send(embed = generate_afk_embed(ctx, reason))
 
-            embed.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
-            embed.add_field(name = "Reason:", value = f"```{reason}```", inline = False)
-            
-            await ctx.send(embed = embed)
+    # Error Handler
 
     @afk.error
     async def afk_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
