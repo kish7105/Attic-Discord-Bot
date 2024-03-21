@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
+discloud.config
+SnapBot.zip
+Database/events.log
 
 # C extensions
 *.so
