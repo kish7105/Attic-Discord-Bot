@@ -1,4 +1,3 @@
-import os
 import random
 from Configs.basic_utils import greeting_responses
 
