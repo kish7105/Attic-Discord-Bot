@@ -6,6 +6,7 @@ from Configs.afk_utils import generate_afk_embed
 from discord import app_commands
 from discord.ext import commands
 
+
 class AFK(commands.Cog):
 
     def __init__(self, client: commands.Bot) -> None:
@@ -16,24 +17,22 @@ class AFK(commands.Cog):
     @commands.guild_only()
     async def afk(self, ctx: commands.Context, *, reason: str = "Not Provided") -> None:
         
-        afk_data = load_afk()  # load data from 'afk.json'
+        afk_data = load_afk()
 
-        if afk_data.get(str(ctx.author.id)) is not None:  # if the author is already afk
+        if afk_data.get(str(ctx.author.id)) is not None:
             await ctx.reply(f"Welcome back {ctx.author.mention}!\n"
                             f"You had gone AFK <t:{afk_data[str(ctx.author.id)]["timestamp"]}:R>\n"
                             f"Reason: **{reason}**")
 
-            del afk_data[str(ctx.author.id)]  # erase author's data from 'afk.json'
-            save_afk(afk_data)  # save the changes
+            del afk_data[str(ctx.author.id)]
+            save_afk(afk_data)
             return
-        
-        # if the user isn't AFK, execute the code below
 
         afk_data[str(ctx.author.id)] = {
-            "timestamp": int(time.time()),  # unix timestamp
-            "reason": reason  # reason provided by the author
+            "timestamp": int(time.time()),
+            "reason": reason
         }
-        save_afk(afk_data)  # save the changes
+        save_afk(afk_data)
 
         await ctx.send(embed = generate_afk_embed(ctx, reason))
 
